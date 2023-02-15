@@ -76,12 +76,12 @@ function countDown() {
     var timeInterval = setInterval(function () {
         timeLeft--;
         if (questions[currentIndex].choices !== questions[currentIndex].answer) {
-            timeLeft - 10;
+            timeLeft-10;
         }
-    }
+    })
 }
 
-countDown();
+
 
 
 
