@@ -50,7 +50,7 @@ function renderQuestions() {
 
     quizCont.append(questionEl)
 
-    for(var i = 0; i < questions[currentIndex].options.length; i++) {
+    for (var i = 0; i < questions[currentIndex].options.length; i++) {
         var choice = document.createElement("button")
         choice.textContent = questions[currentIndex].options[i]
         choice.setAttribute("style", "display: block")
@@ -67,6 +67,7 @@ function checkAnswer(e) {
     if (e.target.textContent === questions[currentIndex].answer) {
         alert("correct")
     } else {
+        timeLeft -= 10; 
         alert("false")
     }
     currentIndex++
@@ -75,24 +76,26 @@ function checkAnswer(e) {
 
 }
 
-var timerEl = document.getElementById("countdown")//.addEventListener('click');
+var timeLeft = 120;
+
+var timerEl = document.getElementById("countdown")
+
+
 
 function countDown() {
-    var timeLeft = 120;
     var timeInterval = setInterval(function () {
         if (timeLeft >= 1) {
             timerEl.textContent = timeLeft;
             timeLeft--;
-        } else {timerEl.textContent = "";
-        clearInterval(timeInterval);
-       // if (questions[currentIndex].choice != questions[currentIndex].answer) {
-           // timeLeft-10;
+        } else {
+            timerEl.textContent = "";
+            clearInterval(timeInterval);
         }
-}
-}, 1000);
+    }, 1000);
 }
 
 countDown();
+
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
