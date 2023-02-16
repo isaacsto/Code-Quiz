@@ -32,12 +32,21 @@ var questions = [
     }
 ]
 
+lastPageArr = [
+    {
+        allDone: "All done!",
+        score: "Your final score is ",
+        initials: "Enter your initials "
+    }
+]
+
 // function erases homepage when you click the start button
 
 function startQuiz() {
     document.querySelector("#welcome").setAttribute("style", "display: none")
     document.querySelector("#start-button").setAttribute("style", "display: none")
     renderQuestions();
+    countDown();
 }
 
 // function creates element to render the quiz content 
@@ -76,14 +85,14 @@ function checkAnswer(e) {
 
 }
 
-var timeLeft = 120;
+var timeLeft = 60;
 
 var timerEl = document.getElementById("countdown")
 
 
 
 function countDown() {
-    var timeInterval = setInterval(function () {
+    var timeInterval = setInterval(function() {
         if (timeLeft >= 1) {
             timerEl.textContent = timeLeft;
             timeLeft--;
@@ -94,8 +103,25 @@ function countDown() {
     }, 1000);
 }
 
-countDown();
+if (timeLeft === 0) {
+    endQuiz();
+}
 
+function endQuiz() {
+    document.querySelector("#quizContent").setAttribute("style", "display: none")
+
+    renderFinalPage();
+   
+}
+
+function renderFinalPage() {
+    var finalPage = document.querySelector("#last-page")
+    finalPage.innerHTML = ""
+    var lastPageEl = document.createElement("h4")
+    lastPageEl.textContent = lastPageArr//[currentIndex].question
+
+    quizCont.append(lastPageEl)
+}
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
