@@ -65,11 +65,17 @@ function renderQuestions() {
         choice.setAttribute("style", "display: block")
         quizCont.appendChild(choice)
     }
+    if (currentIndex === questions.length) {
+        endQuiz();
+        clearInterval(timeInterval)
+    }
 
 
 }
 
 // function to check answer key and alert if right or wrong 
+
+var finalScore = 0;
 
 function checkAnswer(e) {
     console.log(e.target.textContent)
@@ -81,8 +87,12 @@ function checkAnswer(e) {
     }
     currentIndex++
     console.log(currentIndex)
-    renderQuestions()
+    if (currentIndex === questions.length) {
+        endQuiz();
+    } else {
+    renderQuestions();
 
+}
 }
 
 var timeLeft = 60;
@@ -96,14 +106,13 @@ function countDown() {
         if (timeLeft >= 1) {
             timerEl.textContent = timeLeft;
             timeLeft--;
+            renderQuestions();
         } else {
             timerEl.textContent = "";
             clearInterval(timeInterval);
+            endQuiz();
         }
     }, 1000);
-    if (timeLeft === 0) {
-        endQuiz();
-    }
 }
 
 
@@ -112,18 +121,10 @@ function endQuiz() {
     var quizContent = document.getElementById("quiz-container")
     var nextPage = document.getElementById("last-page") 
 
-    var lastPageArr = [
-        {
-            allDone: "All done!",
-            score: "Your final score is " + finalScore,
-            initials: "Enter your initials"
-        }
-    ]
-
     var lastPageEl = document.createElement("div")
 
-    var allDoneEL = document.createElement("h2")
-    allDoneEL.textContent = lastPageArr[0].allDone
+    var allDoneEl = document.createElement("h2")
+    allDoneEl.textContent = lastPageArr[0].allDone
     lastPageEl.appendChild(allDoneEl)
 
     var scoreEl = document.createElement("p")
@@ -131,7 +132,7 @@ function endQuiz() {
     lastPageEl.appendChild(scoreEl);
 
     var initialsEl = document.createElement("p")
-    initialsEl.textConent = lastPageArr[0].initials
+    initialsEl.textContent = lastPageArr[0].initials
     lastPageEl.appendChild(initialsEl)
 
     var inputEl = document.createElement("input")
@@ -147,17 +148,6 @@ function endQuiz() {
    
 }
 
-
-
-
-//function renderFinalPage() {
-  //  var finalPage = document.querySelector("#last-page")
-  //  finalPage.innerHTML = ""
-  //  var lastPageEl = document.createElement("h4")
-  //  lastPageEl.textContent = lastPageArr//[currentIndex].question
-
-  //  quizCont.append(lastPageEl)
-//}
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
