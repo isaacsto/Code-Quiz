@@ -81,6 +81,7 @@ function checkAnswer(e) {
     console.log(e.target.textContent)
     if (e.target.textContent === questions[currentIndex].answer) {
         alert("correct")
+        finalScore++;
     } else {
         timeLeft -= 10; 
         alert("false")
@@ -110,7 +111,6 @@ function countDown() {
         } else {
             timerEl.textContent = "";
             clearInterval(timeInterval);
-            endQuiz();
         }
     }, 1000);
 }
@@ -128,7 +128,7 @@ function endQuiz() {
     lastPageEl.appendChild(allDoneEl)
 
     var scoreEl = document.createElement("p")
-    scoreEl.textContent = lastPageArr[0].score
+    scoreEl.textContent = lastPageArr[0].score + finalScore
     lastPageEl.appendChild(scoreEl);
 
     var initialsEl = document.createElement("p")
