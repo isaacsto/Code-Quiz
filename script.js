@@ -11,7 +11,7 @@ var questions = [
     },
     {
         question: "The condition in an if / else statement is enclosed with ____.",
-        options: ["1.quotes", "2.curly brackets", "3.paranthesis", "square brackets"],
+        options: ["1.quotes", "2.curly brackets", "3.paranthesis", "4.square brackets"],
         answer: "2.curly brackets",
 
     },
@@ -101,27 +101,63 @@ function countDown() {
             clearInterval(timeInterval);
         }
     }, 1000);
+    if (timeLeft === 0) {
+        endQuiz();
+    }
 }
 
-if (timeLeft === 0) {
-    endQuiz();
-}
+
 
 function endQuiz() {
-    document.querySelector("#quizContent").setAttribute("style", "display: none")
+    var quizContent = document.getElementById("quiz-container")
+    var nextPage = document.getElementById("last-page") 
 
-    renderFinalPage();
+    var lastPageArr = [
+        {
+            allDone: "All done!",
+            score: "Your final score is " + finalScore,
+            initials: "Enter your initials"
+        }
+    ]
+
+    var lastPageEl = document.createElement("div")
+
+    var allDoneEL = document.createElement("h2")
+    allDoneEL.textContent = lastPageArr[0].allDone
+    lastPageEl.appendChild(allDoneEl)
+
+    var scoreEl = document.createElement("p")
+    scoreEl.textContent = lastPageArr[0].score
+    lastPageEl.appendChild(scoreEl);
+
+    var initialsEl = document.createElement("p")
+    initialsEl.textConent = lastPageArr[0].initials
+    lastPageEl.appendChild(initialsEl)
+
+    var inputEl = document.createElement("input")
+    inputEl.setAttribute("type", "text")
+    lastPageEl.appendChild(inputEl)
+
+
+    nextPage.append(lastPageEl)
+
+    quizContent.style.display = "none";
+    nextPage.style.display = "block";
+
    
 }
 
-function renderFinalPage() {
-    var finalPage = document.querySelector("#last-page")
-    finalPage.innerHTML = ""
-    var lastPageEl = document.createElement("h4")
-    lastPageEl.textContent = lastPageArr//[currentIndex].question
 
-    quizCont.append(lastPageEl)
-}
+
+
+//function renderFinalPage() {
+  //  var finalPage = document.querySelector("#last-page")
+  //  finalPage.innerHTML = ""
+  //  var lastPageEl = document.createElement("h4")
+  //  lastPageEl.textContent = lastPageArr//[currentIndex].question
+
+  //  quizCont.append(lastPageEl)
+//}
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
