@@ -1,5 +1,6 @@
 
 var currentIndex = 0;
+var timerInterval = null;
 
 //set an array with objects for questions/options with an answer key 
 
@@ -83,28 +84,32 @@ var userScore = 0;
 
 // function to check answer key and alert if right or wrong 
 function checkAnswer(e) {
-    console.log(e.target.textContent)
-    //if event, target aka user's choice = answer value in in array increment score and alert correct
+    // if event target equals answer value in questions array increment score and alert correct
     if (e.target.textContent === questions[currentIndex].answer) {
-        alert("correct")
-        userScore++;
-    // else decrement timer by ten and alert false
+      alert("Correct");
+      userScore++;
+    // else decrement score by one and decrement timer by ten and alert false
     } else {
-        timeLeft -= 10; 
-        alert("false")
+      userScore--;
+      timeLeft -= 10; 
+      alert("Incorrect");
     }
-    //increments through the objects in questions array
-    currentIndex++
-    console.log(currentIndex)
+    // increment currentIndex to move to next question
+    currentIndex++;
+    // check if all questions have been answered
     if (currentIndex >= questions.length) {
-        timeLeft = 0;
-        endQuiz();
-    if (currentIndex === questions.length) {
-        timeLeft = 0;
+      // stop timer
+      clearInterval(timerInterval);
+      // set final score to time left
+      userScore = timeLeft;
+      // end quiz
+      endQuiz();
     } else {
-    renderQuestions(); 
-}
-}}
+      // render next question
+      renderQuestions(); 
+    }
+  }
+  
 
 var timeLeft = 60;
 
@@ -155,29 +160,35 @@ function endQuiz() {
     // sets displays - hides old, displays new 
     quizContent.style.display = "none";
     nextPage.style.display = "block";
-    
 
+    clearInterval(timerInterval);
+    var finalScore = timeLeft
+    localStorage.setItem("userScore", finalScore);
+    document.getElementById("finalScore").textContent = finalScore;
+    document.getElementById("last-page").style.display = "block";
+    currentIndex= 0;
 }
+
 function displayHighScores() {
-    // get the scores from localStorage
+    // get scores from localStorage
     var scores = JSON.parse(localStorage.getItem("scores")) || [];
-  
-    // sort the scores from highest to lowest
+ 
+  // sort the scores from highest to lowest
     scores.sort(function(a, b) {
       return b.score - a.score;
     });
   
-    // create a new list to display the scores
+    // create new list to display scores
     var scoresList = document.createElement("ul");
   
-    // loop through the scores and create a new list item for each one
+    // loop through scores, create new list item for each one
     for (var i = 0; i < scores.length; i++) {
       var scoreItem = document.createElement("li");
       scoreItem.textContent = scores[i].initials + " - " + scores[i].score;
       scoresList.appendChild(scoreItem);
     }
   
-    // add the scores list to the page
+    // add scores list to the page
     var highScoresDiv = document.getElementById("high-scores");
     highScoresDiv.innerHTML = "";
     highScoresDiv.appendChild(scoresList);
@@ -188,7 +199,7 @@ var initialsForm = document.getElementById("initialsForm");
 var submitInitialsButton = document.getElementById("submitInitials");
 
 submitInitialsButton.addEventListener("click", function(e) {
-    e.preventDefault; 
+    e.preventDefault(); 
   var initialsInput = document.getElementById("initialsInput").value;
   var userScore = localStorage.getItem("userScore");
   storeScore(initialsInput, userScore);
