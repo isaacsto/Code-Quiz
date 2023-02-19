@@ -31,6 +31,7 @@ var questions = [
         answer: "4.console.log",
     }
 ]
+//content for the page after quiz ends 
 
 lastPageArr = [
     {
@@ -40,7 +41,7 @@ lastPageArr = [
     }
 ]
 
-// function erases homepage when you click the start button
+// function erases homepage when you click the start button, calls countdown and renderQuestions function
 
 function startQuiz() {
     document.querySelector("#welcome").setAttribute("style", "display: none")
@@ -51,16 +52,18 @@ function startQuiz() {
 
 // function creates element to render the quiz content 
 
-
-
 function renderQuestions() {
+    // assigns and pulls html element this function is attatched to 
     var quizCont = document.getElementById("quiz-container")
     quizCont.innerHTML = ""
+    //makes a js variable an h3 element 
     var questionEl = document.createElement("h3")
+    //sets text contnent of h3 to the "header" content in questions array
     questionEl.textContent = questions[currentIndex].header
-
+    //append quiz content to the h3 element
     quizCont.append(questionEl)
 
+    //makes content for questions array into buttons
     for (var i = 0; i < questions[currentIndex].options.length; i++) {
         var choice = document.createElement("button")
         choice.textContent = questions[currentIndex].options[i]
@@ -75,34 +78,37 @@ function renderQuestions() {
 
 }
 
-// function to check answer key and alert if right or wrong 
-
+//sets score to 0 
 var userScore = 0;
 
+// function to check answer key and alert if right or wrong 
 function checkAnswer(e) {
     console.log(e.target.textContent)
+    //if event, target aka user's choice = answer value in in array increment score and alert correct
     if (e.target.textContent === questions[currentIndex].answer) {
         alert("correct")
         userScore++;
+    // else decrement timer by ten and alert false
     } else {
         timeLeft -= 10; 
         alert("false")
     }
+    //increments through the objects in questions array
     currentIndex++
     console.log(currentIndex)
-    if (currentIndex === questions.length) {
+    if (currentIndex >= questions.length) {
+        timeLeft = 0;
         endQuiz();
+    if (currentIndex === questions.length) {
+        timeLeft = 0;
     } else {
-    renderQuestions();
-
+    renderQuestions(); 
 }
-}
+}}
 
 var timeLeft = 60;
 
 var timerEl = document.getElementById("countdown")
-
-
 
 function countDown() {
    var timeInterval = setInterval(function() {
@@ -120,16 +126,16 @@ function countDown() {
 
 
 
-
 var lastPage = document.getElementById("last-page");
 
 
 function endQuiz() {
+    //defines and pulls html elements 
     var quizContent = document.getElementById("quiz-container")
     var nextPage = document.getElementById("last-page") 
 
     var lastPageEl = document.createElement("div")
-
+// appends content of last page array to html elements 
     var allDoneEl = document.createElement("h2")
     allDoneEl.textContent = lastPageArr[0].allDone
     lastPageEl.appendChild(allDoneEl)
@@ -146,57 +152,57 @@ function endQuiz() {
     inputEl.setAttribute("type", "text")
     lastPageEl.appendChild(inputEl)
 
-    
+    // sets displays - hides old, displays new 
     quizContent.style.display = "none";
     nextPage.style.display = "block";
+    
 
-
-
- document.addEventListener("DOMContentLoaded", function() {
-
-    var initialsInput = document.getElementById("initialsInput");
-    var displayScore = localStorage.getItem("userScore");
-
-    function storeScore(initialsInput, finalScore) {
-        var scores = JSON.parse(localStorage.getItem("scores")) || [];
-        var scoreObj = {
-            initials: initialsInput,
-            score: finalScore
-        };
-        scores.push(scoreObj);
-        localStorage.setItem("scores", JSON.stringify(scores));
+}
+function displayHighScores() {
+    // get the scores from localStorage
+    var scores = JSON.parse(localStorage.getItem("scores")) || [];
+  
+    // sort the scores from highest to lowest
+    scores.sort(function(a, b) {
+      return b.score - a.score;
+    });
+  
+    // create a new list to display the scores
+    var scoresList = document.createElement("ul");
+  
+    // loop through the scores and create a new list item for each one
+    for (var i = 0; i < scores.length; i++) {
+      var scoreItem = document.createElement("li");
+      scoreItem.textContent = scores[i].initials + " - " + scores[i].score;
+      scoresList.appendChild(scoreItem);
     }
-        
-       
-        var scoresList = document.getElementById("scores-list");
-        scoresList.innerHTML = ""; 
-        for (var i=0; i < scores.length; i++){
-            var scoreItem = document.createElement("li");
-            scoreItem.textContent = scores[i].initials + "-" + scores[i].score;
-            scoresList.appendChild(scoreItem);
-}
+  
+    // add the scores list to the page
+    var highScoresDiv = document.getElementById("high-scores");
+    highScoresDiv.innerHTML = "";
+    highScoresDiv.appendChild(scoresList);
+  }
+  
 
-    var initialsForm = document.getElementById("initialsForm");
-    var submitInitialsButton = document.getElementById("submitInitials");
-    
-console.log(initialsForm)
-console.log(submitInitialsButton)
+var initialsForm = document.getElementById("initialsForm");
+var submitInitialsButton = document.getElementById("submitInitials");
 
-    initialsForm.addEventListener("submit", function(e) {
-        e.preventDefault();
-    
-        var initialsInput = document.getElementById("initialsInput").value;
-        storeScore(initialsInput, userScore);
+submitInitialsButton.addEventListener("click", function(e) {
+    e.preventDefault; 
+  var initialsInput = document.getElementById("initialsInput").value;
+  var userScore = localStorage.getItem("userScore");
+  storeScore(initialsInput, userScore);
+  displayHighScores();
+});
 
-       localStorage.setItem("score", userScore)
-       localStorage.setItem("initials", initialsInput);
-    
-        window.location.replace("highscores.html");
-    })
- 
-    })
-}
-
+function storeScore(initialsInput, finalScore) {
+  var scores = JSON.parse(localStorage.getItem("scores")) || [];
+  scores.push({
+    initials: initialsInput,
+    score: finalScore
+  });
+  localStorage.setItem("scores", JSON.stringify(scores));
+} 
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
