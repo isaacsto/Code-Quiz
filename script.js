@@ -52,7 +52,7 @@ function startQuiz() {
 // function creates element to render the quiz content 
 
 function renderQuestions() {
-    var quizCont = document.querySelector("#quiz-container")
+    var quizCont = document.getElementById("quiz-container")
     quizCont.innerHTML = ""
     var questionEl = document.createElement("h3")
     questionEl.textContent = questions[currentIndex].question
@@ -117,6 +117,10 @@ function countDown() {
 
 
 
+
+var lastPage = document.getElementById("last-page");
+
+
 function endQuiz() {
     var quizContent = document.getElementById("quiz-container")
     var nextPage = document.getElementById("last-page") 
@@ -139,9 +143,6 @@ function endQuiz() {
     inputEl.setAttribute("type", "text")
     lastPageEl.appendChild(inputEl)
 
-
-    nextPage.append(lastPageEl)
-
     quizContent.style.display = "none";
     nextPage.style.display = "block";
 
@@ -149,6 +150,25 @@ function endQuiz() {
 }
 
 
+function storeScore() {
+    var scores = JSON.parse(localStorage.getItem("scores"));
+    var scoresList = document.getElementById("scores-list");
+
+    scores.forEdach(function(score) {
+        var li = document.createElemeent("li");
+        li.textContent = score.initials + " - " + score.score;
+        scoresList.appendChild(li);
+    })
+
+}
+
+
+function displayScore() {
+    lastPage.style.display = "none"
+}
+
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
 document.querySelector("#quiz-container").addEventListener('click', checkAnswer)
+
+document.querySelector("#submitInitials").addEventListener('click', recordScore)

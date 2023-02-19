@@ -4,7 +4,7 @@
     <title>Home-Page</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
     <header>
@@ -24,7 +24,21 @@
 <button id="start-button">Begin</button>
 <div id="quiz-container"></div>
 
-<div id="last-page"></div>
+
+<section id="last-page" style="display: none">
+  <h2>All done!</h2>
+  <p>Your final score is <span id="finalScore"></span>.</p>
+  <form id="initialsForm">
+    <label for="initialsInput">Enter your initials:</label>
+    <input type="text" id="initialsInput" name="initialsInput" required>
+    <button type="submit" id="submitInitials">Submit</button>
+  </form>
+</section>
+
+
+
+
+
 <script src="script.js"></script>
   </body>
   
