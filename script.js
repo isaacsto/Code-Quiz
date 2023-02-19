@@ -151,25 +151,45 @@ function endQuiz() {
 
 
 function storeScore() {
-    var scores = JSON.parse(localStorage.getItem("scores"));
+    var scores = JSON.parse(localStorage.getItem("scores")) || [];
     var scoresList = document.getElementById("scores-list");
 
-    scores.forEdach(function(score) {
-        var li = document.createElemeent("li");
+    var newScore = {
+        initials: initialsInput.value,
+        score: finalScore
+    }
+
+    scores.push(newScore);
+
+    localStorage.setItem("scores", JSON.stringify(scores))
+
+
+    scores.forEach(function(score) {
+        var li = document.createElement("li");
         li.textContent = score.initials + " - " + score.score;
         scoresList.appendChild(li);
-    })
+    })    
+   }
 
-}
+var initialsForm = document.getElementById("initialsForm");
+var submitInitialsButton = document.getElementById("submitInitials");
+
+initialsForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    var initialsInput = document.getElementById("initialsInput")
+
+    localStorage.setItem("score", finalScore)
+    localStorage.setItem("initials", initialsInput);
+
+    window.location.href="highscores.index.htm";
+})
 
 
-function displayScore() {
-    if 
-    lastPage.style.display = "none"
-}
+document.addEventListener("DOMContentLoaded", function() {
+    storeScore();
+})
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
 document.querySelector("#quiz-container").addEventListener('click', checkAnswer)
-
-document.querySelector("#submitInitials").addEventListener('click', recordScore)
