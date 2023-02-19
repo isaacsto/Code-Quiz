@@ -164,6 +164,7 @@ function storeScore() {
 
 
 function displayScore() {
+    if 
     lastPage.style.display = "none"
 }
 
