@@ -105,7 +105,7 @@ var timerEl = document.getElementById("countdown")
 
 
 function countDown() {
-    var timeInterval = setInterval(function() {
+   var timeInterval = setInterval(function() {
         if (timeLeft >= 1) {
             timerEl.textContent = timeLeft;
             timeLeft--;
@@ -113,6 +113,7 @@ function countDown() {
         } else {
             timerEl.textContent = "";
             clearInterval(timeInterval);
+            endQuiz()
         }
     }, 1000);
 }
@@ -145,13 +146,13 @@ function endQuiz() {
     inputEl.setAttribute("type", "text")
     lastPageEl.appendChild(inputEl)
 
+    
     quizContent.style.display = "none";
     nextPage.style.display = "block";
 
-   
-}
 
-document.addEventListener("DOMContentLoaded", function() {
+
+ document.addEventListener("DOMContentLoaded", function() {
 
     var initialsInput = document.getElementById("initialsInput");
     var displayScore = localStorage.getItem("userScore");
@@ -178,20 +179,23 @@ document.addEventListener("DOMContentLoaded", function() {
     var initialsForm = document.getElementById("initialsForm");
     var submitInitialsButton = document.getElementById("submitInitials");
     
+console.log(initialsForm)
+console.log(submitInitialsButton)
+
     initialsForm.addEventListener("submit", function(e) {
         e.preventDefault();
     
-        var initialsInput = document.getElementById("initialsInput")
+        var initialsInput = document.getElementById("initialsInput").value;
         storeScore(initialsInput, userScore);
 
-       localStorage.setItem("score", finalScore)
+       localStorage.setItem("score", userScore)
        localStorage.setItem("initials", initialsInput);
     
-        window.location.href="highscores.index.html";
+        window.location.replace("highscores.html");
     })
-    storeScore(initialsInput, finalScore);
-
-})
+ 
+    })
+}
 
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
