@@ -5,28 +5,28 @@ var currentIndex = 0;
 
 var questions = [
     {
-        question: "Commonly used data types do NOT include:",
+        header: "Commonly used data types do NOT include:",
         options: ["1.strings", "2.booleans", "3.alerts", "4.numbers"],
         answer: "3.alerts",
     },
     {
-        question: "The condition in an if / else statement is enclosed with ____.",
+        header: "The condition in an if / else statement is enclosed with ____.",
         options: ["1.quotes", "2.curly brackets", "3.paranthesis", "4.square brackets"],
         answer: "2.curly brackets",
 
     },
     {
-        question: "Arrays in JavaScript can be used to store _____.",
+        header: "Arrays in JavaScript can be used to store _____.",
         options: ["1.numbers and strings", "2.booleans", "3.other arrays", "4.all of the above"],
         answer: "4.all of the above",
     },
     {
-        question: "String values must be enclosed within _____ when being assigned to variables.",
+        header: "String values must be enclosed within _____ when being assigned to variables.",
         options: ["1.commas", "2.curly brackets", "3.quotes", "4.parenthesis"],
         answer: "3.quotes",
     },
     {
-        question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        header: "A very useful tool used during development and debugging for printing content to the debugger is:",
         options: ["1.JavaScript", "2.terminal/bash", "3.for loops", "4.console.log"],
         answer: "4.console.log",
     }
@@ -51,11 +51,13 @@ function startQuiz() {
 
 // function creates element to render the quiz content 
 
+
+
 function renderQuestions() {
     var quizCont = document.getElementById("quiz-container")
     quizCont.innerHTML = ""
     var questionEl = document.createElement("h3")
-    questionEl.textContent = questions[currentIndex].question
+    questionEl.textContent = questions[currentIndex].header
 
     quizCont.append(questionEl)
 
@@ -75,13 +77,13 @@ function renderQuestions() {
 
 // function to check answer key and alert if right or wrong 
 
-var finalScore = 0;
+var userScore = 0;
 
 function checkAnswer(e) {
     console.log(e.target.textContent)
     if (e.target.textContent === questions[currentIndex].answer) {
         alert("correct")
-        finalScore++;
+        userScore++;
     } else {
         timeLeft -= 10; 
         alert("false")
@@ -152,29 +154,27 @@ function endQuiz() {
 document.addEventListener("DOMContentLoaded", function() {
 
     var initialsInput = document.getElementById("initialsInput");
-    var finalScore = localStorage.getItem("score");
+    var displayScore = localStorage.getItem("userScore");
 
     function storeScore(initialsInput, finalScore) {
         var scores = JSON.parse(localStorage.getItem("scores")) || [];
-        var scoresList = document.getElementById("scores-list");
-    
-        var newScore = {
-            initials: initialsInput.value,
+        var scoreObj = {
+            initials: initialsInput,
             score: finalScore
-        }
-    
-        scores.push(newScore);
-    
-        localStorage.setItem("scores", JSON.stringify(scores))
-    
-    
-        scores.forEach(function(score) {
-            var li = document.createElement("li");
-            li.textContent = score.initials + " - " + score.score;
-            scoresList.appendChild(li);
-        })    
-       }
-    
+        };
+        scores.push(scoreObj);
+        localStorage.setItem("scores", JSON.stringify(scores));
+    }
+        
+       
+        var scoresList = document.getElementById("scores-list");
+        scoresList.innerHTML = ""; 
+        for (var i=0; i < scores.length; i++){
+            var scoreItem = document.createElement("li");
+            scoreItem.textContent = scores[i].initials + "-" + scores[i].score;
+            scoresList.appendChild(scoreItem);
+}
+
     var initialsForm = document.getElementById("initialsForm");
     var submitInitialsButton = document.getElementById("submitInitials");
     
@@ -182,14 +182,17 @@ document.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
     
         var initialsInput = document.getElementById("initialsInput")
+        storeScore(initialsInput, userScore);
+
+       localStorage.setItem("score", finalScore)
+       localStorage.setItem("initials", initialsInput);
     
-        localStorage.setItem("score", finalScore)
-        localStorage.setItem("initials", initialsInput);
-    
-        window.location.href="highscores.index.htm";
+        window.location.href="highscores.index.html";
     })
     storeScore(initialsInput, finalScore);
+
 })
+
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
