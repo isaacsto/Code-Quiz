@@ -1,4 +1,3 @@
-
 var currentIndex = 0;
 var timerInterval = null;
 
@@ -98,15 +97,11 @@ function checkAnswer(e) {
     currentIndex++;
     // check if all questions have been answered
     if (currentIndex >= questions.length) {
-      // stop timer
-      clearInterval(timerInterval);
-      // set final score to time left
-      userScore = timeLeft;
-      // end quiz
-      endQuiz();
+        clearInterval(timerInterval);
+        userScore = timeLeft
+        endQuiz()
     } else {
-      // render next question
-      renderQuestions(); 
+        renderQuestions()
     }
   }
   
@@ -115,8 +110,10 @@ var timeLeft = 60;
 
 var timerEl = document.getElementById("countdown")
 
+var timeInterval;
+
 function countDown() {
-   var timeInterval = setInterval(function() {
+   timeInterval = setInterval(function() {
         if (timeLeft >= 1) {
             timerEl.textContent = timeLeft;
             timeLeft--;
@@ -135,39 +132,50 @@ var lastPage = document.getElementById("last-page");
 
 
 function endQuiz() {
+
     //defines and pulls html elements 
     var quizContent = document.getElementById("quiz-container")
     var nextPage = document.getElementById("last-page") 
-
+  
     var lastPageEl = document.createElement("div")
-// appends content of last page array to html elements 
+    // appends content of last page array to html elements 
     var allDoneEl = document.createElement("h2")
     allDoneEl.textContent = lastPageArr[0].allDone
     lastPageEl.appendChild(allDoneEl)
-
+  
+    var finalScore = timeLeft; // Move this line to the beginning of the function
     var scoreEl = document.createElement("p")
     scoreEl.textContent = lastPageArr[0].score + finalScore
     lastPageEl.appendChild(scoreEl);
-
+  
     var initialsEl = document.createElement("p")
     initialsEl.textContent = lastPageArr[0].initials
     lastPageEl.appendChild(initialsEl)
-
+  
     var inputEl = document.createElement("input")
     inputEl.setAttribute("type", "text")
     lastPageEl.appendChild(inputEl)
-
+  
     // sets displays - hides old, displays new 
     quizContent.style.display = "none";
     nextPage.style.display = "block";
-
-    clearInterval(timerInterval);
-    var finalScore = timeLeft
+  
+   
+    clearInterval(timeInterval);
+    var finalScore = timeLeft;
+    var userScore = finalScore;
+    console.log("user score: " + finalScore)
     localStorage.setItem("userScore", finalScore);
-    document.getElementById("finalScore").textContent = finalScore;
     document.getElementById("last-page").style.display = "block";
+    document.getElementById("finalScore").textContent = userScore;
+    submitInitialsButton.addEventListener("click", function(e) {
+        e.preventDefault();
+        var initialsInput = document.getElementById("initialsInput").value;
+        displayHighScores();
+    });
     currentIndex= 0;
-}
+  }
+  
 
 function displayHighScores() {
     // get scores from localStorage
@@ -207,13 +215,23 @@ submitInitialsButton.addEventListener("click", function(e) {
 });
 
 function storeScore(initialsInput, finalScore) {
+    try {
   var scores = JSON.parse(localStorage.getItem("scores")) || [];
+} catch (error) {
+    var scores = []
+}
   scores.push({
     initials: initialsInput,
     score: finalScore
   });
   localStorage.setItem("scores", JSON.stringify(scores));
 } 
+
+
+
+
+
+
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
