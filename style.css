@@ -1,3 +1,4 @@
+/* certain things won't be displayed until functions are called  */
 .last-page {
     display: none;
 };
@@ -9,6 +10,8 @@
 .clear-btn {
     display: none;
 } 
+
+/* adds some styling to the page */
 
 * {
     display: flex;

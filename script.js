@@ -142,8 +142,8 @@ function endQuiz() {
     var allDoneEl = document.createElement("h2")
     allDoneEl.textContent = lastPageArr[0].allDone
     lastPageEl.appendChild(allDoneEl)
-  
-    var finalScore = timeLeft + 1; 
+
+    var finalScore = timeLeft 
     var scoreEl = document.createElement("p")
     scoreEl.textContent = "Your score is: " + finalScore
     lastPageEl.appendChild(scoreEl);
@@ -206,6 +206,7 @@ function displayHighScores() {
 var initialsForm = document.getElementById("initialsForm");
 var submitInitialsButton = document.getElementById("submitInitials");
 
+// add event listener so that the high scores display when the submit button is pushed 
 submitInitialsButton.addEventListener("click", function(e) {
     e.preventDefault(); 
   var initialsInput = document.getElementById("initialsInput").value;
@@ -215,6 +216,7 @@ submitInitialsButton.addEventListener("click", function(e) {
 });
 
 function storeScore(initialsInput, finalScore) {
+    //try catches the error that was displaying
     try {
   var scores = JSON.parse(localStorage.getItem("scores")) || [];
 } catch (error) {
@@ -240,7 +242,7 @@ function displayHighScores() {
     }
   }
 
-var highScoresNav = document.getElementById("high-scores-nav");
+var highScoresNav = document.getElementById("high-scores-list");
 
 highScoresNav.addEventListener("click", function() {
     displayHighScores();
