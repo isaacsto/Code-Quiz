@@ -143,9 +143,9 @@ function endQuiz() {
     allDoneEl.textContent = lastPageArr[0].allDone
     lastPageEl.appendChild(allDoneEl)
   
-    var finalScore = timeLeft; // Move this line to the beginning of the function
+    var finalScore = timeLeft; 
     var scoreEl = document.createElement("p")
-    scoreEl.textContent = lastPageArr[0].score + finalScore
+    scoreEl.textContent = "Your score is: " + finalScore
     lastPageEl.appendChild(scoreEl);
   
     var initialsEl = document.createElement("p")
@@ -162,7 +162,7 @@ function endQuiz() {
   
    
     clearInterval(timeInterval);
-    var finalScore = timeLeft;
+   // var finalScore = timeLeft;
     var userScore = finalScore;
     console.log("user score: " + finalScore)
     localStorage.setItem("userScore", finalScore);
