@@ -1,14 +1,22 @@
-#last-page {
+.last-page {
     display: none;
 };
 
-#scores-container {
+.scores-container {
     display: none;
 };
 
+.clear-btn {
+    display: none;
+} 
 
- * {
+*{
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
-}
+    flex-direction: column;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 10px; 
+};
+

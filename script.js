@@ -245,6 +245,13 @@ highScoresNav.addEventListener("click", function() {
     displayHighScores();
 });
 
+//add click event listener to button
+var clearBtn = document.getElementById("clear-btn");
+clearBtn.addEventListener("click", function() {
+    localStorage.clear();
+    displayHighScores();
+});
+
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
 
