@@ -220,8 +220,9 @@ function storeScore(initialsInput, finalScore) {
 } catch (error) {
     var scores = []
 }
+
   scores.push({
-    initials: initialsInput,
+    initials: initialsInput.toUpperCase(),
     score: finalScore
   });
   localStorage.setItem("scores", JSON.stringify(scores));

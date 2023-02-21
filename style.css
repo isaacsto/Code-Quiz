@@ -10,7 +10,7 @@
     display: none;
 } 
 
-*{
+* {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -18,5 +18,7 @@
     flex-direction: column;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin-top: 10px; 
+    color: rgb(14, 14, 111);
+    border-color: rgb(14, 14, 111);
 };
 
