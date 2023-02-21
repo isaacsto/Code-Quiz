@@ -143,7 +143,7 @@ function endQuiz() {
     allDoneEl.textContent = lastPageArr[0].allDone
     lastPageEl.appendChild(allDoneEl)
   
-    var finalScore = timeLeft; 
+    var finalScore = timeLeft + 1; 
     var scoreEl = document.createElement("p")
     scoreEl.textContent = "Your score is: " + finalScore
     lastPageEl.appendChild(scoreEl);
