@@ -227,10 +227,23 @@ function storeScore(initialsInput, finalScore) {
   localStorage.setItem("scores", JSON.stringify(scores));
 } 
 
+function displayHighScores() {
+    var highScores = JSON.parse(localStorage.getItem("scores")) || [];
+    var highScoresList = document.getElementById("high-scores-list");
+    highScoresList.innerHTML = "";
+  
+    for (var i = 0; i < highScores.length; i++) {
+      var scoreEntry = document.createElement("li");
+      scoreEntry.textContent = highScores[i].initials + " - " + highScores[i].score;
+      highScoresList.appendChild(scoreEntry);
+    }
+  }
 
+var highScoresNav = document.getElementById("high-scores-nav");
 
-
-
+highScoresNav.addEventListener("click", function() {
+    displayHighScores();
+});
 
 
 document.querySelector("#start-button").addEventListener('click', startQuiz)
