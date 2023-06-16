@@ -44,7 +44,7 @@ lastPageArr = [
 // function erases homepage when you click the start button, calls countdown and renderQuestions function
 
 function startQuiz() {
-  document.querySelector("#welcome").setAttribute("style", "display: none")
+  document.querySelector("#start-button").setAttribute("style", "display: none")
   document.querySelector("#start-button").setAttribute("style", "display: none")
   renderQuestions();
   countDown();
