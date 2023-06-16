@@ -66,6 +66,7 @@ function renderQuestions() {
   //makes content for questions array into buttons
   for (var i = 0; i < questions[currentIndex].options.length; i++) {
     var choice = document.createElement("button")
+    choice.classList.add("btn", "btn-custom");
     choice.textContent = questions[currentIndex].options[i]
     choice.setAttribute("style", "display: block")
     quizCont.appendChild(choice)
@@ -238,12 +239,21 @@ function displayHighScores() {
   var highScores = JSON.parse(localStorage.getItem("scores")) || [];
   var highScoresList = document.getElementById("high-scores-list");
   highScoresList.innerHTML = "";
+  var clearButton = document.getElementById("clear-btn");
+
+  highScoresList.style.display = "none";
+  clearButton.style.display = "none";
+
+  highScoresList.innerHTML = "";
 
   for (var i = 0; i < highScores.length; i++) {
     var scoreEntry = document.createElement("li");
     scoreEntry.textContent = highScores[i].initials + " - " + highScores[i].score;
     highScoresList.appendChild(scoreEntry);
   }
+
+  highScoresList.style.display = "block";
+  clearButton.style.display = "block";
 }
 
 var highScoresNav = document.getElementById("high-scores-list");
